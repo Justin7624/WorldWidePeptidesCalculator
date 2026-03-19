@@ -689,8 +689,6 @@
 <body>
   <div class="molecule-bg"></div>
   <header class="siteHeader" aria-label="Worldwide Peptides header">
-    <div class="hero-overlay">
-    </div>
   </header>
 
   <main>
@@ -1269,7 +1267,7 @@
     }
 
     function buildSections(){
-      const order = ["healing","energy","gh","cognitive","aesthetic","fatloss","detox","tabs","supplies","kits"];
+      const order = ["healing","energy","gh","cognitive","aesthetic","fatloss","detox","tabs","supplies","kits","oil"];
       return order.map(catKey => {
         if(state.cat !== "all" && state.cat !== catKey) return "";
         const group = ITEMS.filter(it => it.cat===catKey && matches(it, state.q));
