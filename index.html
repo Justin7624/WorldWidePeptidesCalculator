@@ -899,10 +899,10 @@
       { key:"all", label:"All" },
       { key:"supplies", label:"Supplies" },
       { key:"kits", label:"Kits" },
-      { key:"half kits", label:"Half Kits" },
+      { key:"half_kits", label:"Half Kits" },
       { key:"oil", label:"Oil" },
       { key:"oral", label:"Oral" },
-      { key:"half bottles", label:"Half Bottles(Oral)" }
+      { key:"half_bottles", label:"Half Bottles(Oral)" }
     ];
 
     const CAT_DESC = {
@@ -1390,7 +1390,7 @@
               <h3 class="name">${esc(it.name)}</h3>
               <div class="tagrow">
                 ${it.cat === "kits" ? `<span class="tag kit">10 VIAL KIT</span>` : ""}
-                ${it.cat === "half_kits" : "half_bottle", ? `<span class="tag" style="background:rgba(255,255,255,.1)">HALF SIZE</span>` : ""}
+               ${it.cat === "half_kits" || it.cat === "half_bottle" ? `<span class="tag" style="background:rgba(255,255,255,.1)">HALF SIZE</span>` : ""}
                 <span class="tag red">${esc(getCatLabel(it.cat))}</span>
                 <span class="tag mono">${esc(it.id.toUpperCase())}</span>
               </div>
