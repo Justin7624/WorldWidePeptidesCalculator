@@ -911,7 +911,7 @@
       half_kits: "Half Kit(5 vials).",
       oil: "Injectable Oil-based compounds.",
       oral: "Oral tablets (x100 count).",
-      half_bottle: "Half bottle Oral Tablets (x50 count)
+      half_bottle: "Half bottle Oral Tablets (x50 count)."
     };
 
    const INFO_BY_ID = {
@@ -1269,7 +1269,7 @@
       halfItems.push({
         id: item.id + "_half",
         name: item.name + (isKit ? " (Half Kit)" : " (Half Bottle)"),
-        cat: "half_kits", "half_bottle"
+        cat: isKit ? "half_kits" : "half_bottle",
         variants: item.variants.map(v => ({
           strength: v.strength,
           price: Math.round((v.price / 2) + 10)
@@ -1390,7 +1390,7 @@
               <h3 class="name">${esc(it.name)}</h3>
               <div class="tagrow">
                 ${it.cat === "kits" ? `<span class="tag kit">10 VIAL KIT</span>` : ""}
-                ${it.cat === "half" ? `<span class="tag" style="background:rgba(255,255,255,.1)">HALF SIZE</span>` : ""}
+                ${it.cat === "half_kits" : "half_bottle", ? `<span class="tag" style="background:rgba(255,255,255,.1)">HALF SIZE</span>` : ""}
                 <span class="tag red">${esc(getCatLabel(it.cat))}</span>
                 <span class="tag mono">${esc(it.id.toUpperCase())}</span>
               </div>
@@ -1581,7 +1581,7 @@ document.getElementById("dNote").innerHTML = `
       const items = [...state.cart.values()];
       const count = items.reduce((a,x)=> a + x.qty, 0);
       const subtotal = items.reduce((a,x)=> a + x.unitPrice * x.qty, 0);
-      return { subtotal, total: subtotal, count, lines: ALL_items.length };
+      return { subtotal, total: subtotal, count, lines: ALL_ITEMS.length };
     }
 
     function renderCart(){
