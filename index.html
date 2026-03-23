@@ -899,15 +899,19 @@
       { key:"all", label:"All" },
       { key:"supplies", label:"Supplies" },
       { key:"kits", label:"Kits" },
+      { key:"half kits", label:"Half Kits" },
       { key:"oil", label:"Oil" },
-      { key:"oral", label:"Oral" }
+      { key:"oral", label:"Oral" },
+      { key:"half bottles", label:"Half Bottles(Oral)" }
     ];
 
     const CAT_DESC = {
       supplies: "Supplies.",
       kits: "Kit(10 vials).",
+      half_kits: "Half Kit(5 vials).",
       oil: "Injectable Oil-based compounds.",
-      oral: "Oral tablets (x100 count)."
+      oral: "Oral tablets (x100 count).",
+      half_bottle: "Half bottle Oral Tablets (x50 count)
     };
 
    const INFO_BY_ID = {
@@ -1252,6 +1256,30 @@
       ]}
     ];
 
+    const ALL_ITEMS = [...ITEMS, ...buildHalfItems()];
+
+    function buildHalfItems(){
+    const halfItems = [];
+  
+    ITEMS.forEach(item => {
+      if(item.cat !== "kits" && item.cat !== "oral") return;
+  
+      const isKit = item.cat === "kits";
+  
+      halfItems.push({
+        id: item.id + "_half",
+        name: item.name + (isKit ? " (Half Kit)" : " (Half Bottle)"),
+        cat: "half_kits", "half_bottle"
+        variants: item.variants.map(v => ({
+          strength: v.strength,
+          price: Math.round((v.price / 2) + 10)
+        }))
+      });
+    });
+  
+    return halfItems;
+  }
+    
     const state = { cat:"all", q:"", sort:"featured", sectionView:false, detail:null, cart:new Map() };
 
     const money = (n) => `$${Number(n).toFixed(2)}`;
@@ -1326,14 +1354,14 @@
       const empty = document.getElementById("empty");
       const sectionView = document.getElementById("sectionView");
 
-      let list = ITEMS.filter(it => inCat(it, state.cat) && matches(it, state.q));
+      let list = ALL_ITEMS.filter(it => inCat(it, state.cat) && matches(it, state.q));
       list = sortItems(list, state.sort);
 
-      const cats = new Set(ITEMS.map(i=>i.cat));
-      document.getElementById("statItems").textContent = String(ITEMS.length);
+      const cats = new Set(ALL_ITEMS.map(i=>i.cat));
+      document.getElementById("statItems").textContent = String(ALL_ITEMS.length);
       document.getElementById("statCats").textContent = String(cats.size);
-      document.getElementById("statLow").textContent = money(Math.min(...ITEMS.map(itemMinPrice)));
-      document.getElementById("statHigh").textContent = money(Math.max(...ITEMS.map(itemMaxPrice)));
+      document.getElementById("statLow").textContent = money(Math.min(...ALL_ITEMS.map(itemMinPrice)));
+      document.getElementById("statHigh").textContent = money(Math.max(...ALL_ITEMS.map(itemMaxPrice)));
 
       if(state.sectionView){
         sectionView.style.display = "block";
@@ -1362,6 +1390,7 @@
               <h3 class="name">${esc(it.name)}</h3>
               <div class="tagrow">
                 ${it.cat === "kits" ? `<span class="tag kit">10 VIAL KIT</span>` : ""}
+                ${it.cat === "half" ? `<span class="tag" style="background:rgba(255,255,255,.1)">HALF SIZE</span>` : ""}
                 <span class="tag red">${esc(getCatLabel(it.cat))}</span>
                 <span class="tag mono">${esc(it.id.toUpperCase())}</span>
               </div>
@@ -1432,7 +1461,7 @@
       const order = ["kits","gh","cognitive","fatloss","oral","oil","supplies"];
       return order.map(catKey => {
         if(state.cat !== "all" && state.cat !== catKey) return "";
-        const group = ITEMS.filter(it => it.cat===catKey && matches(it, state.q));
+        const group = ALL_ITEMS.filter(it => it.cat===catKey && matches(it, state.q));
         const rows = group.map(it=>{
           const lines = it.variants.map(vv => `
             <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap">
@@ -1552,7 +1581,7 @@ document.getElementById("dNote").innerHTML = `
       const items = [...state.cart.values()];
       const count = items.reduce((a,x)=> a + x.qty, 0);
       const subtotal = items.reduce((a,x)=> a + x.unitPrice * x.qty, 0);
-      return { subtotal, total: subtotal, count, lines: items.length };
+      return { subtotal, total: subtotal, count, lines: ALL_items.length };
     }
 
     function renderCart(){
