@@ -369,6 +369,7 @@
     .stat .big{ font-weight:980; font-size:16px; letter-spacing:.2px; }
 
     .grid{
+      position:relative;
       margin-top:18px;
       display:grid;
       grid-template-columns: repeat(3, minmax(0,1fr));  /* bigger cards on desktop */
@@ -377,7 +378,18 @@
     @media (min-width: 1600px){ .grid{ grid-template-columns: repeat(4, minmax(0,1fr)); } } /* optional extra-wide */
     @media (max-width: 1080px){ .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
     @media (max-width: 520px){ .grid{ grid-template-columns: 1fr; } }
-
+    .grid::before{
+      content:"";
+      position:absolute;
+      inset:-20px;
+      z-index:-1;
+    
+      background:
+        radial-gradient(circle at 20% 20%, rgba(59,178,115,.08), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(30,111,168,.08), transparent 40%);
+    
+      filter: blur(40px);
+    }
     .card{
       border:1px solid rgba(59,178,115,.15);
     
