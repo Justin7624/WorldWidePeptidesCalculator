@@ -1297,7 +1297,20 @@
             <div style="min-width:0">
               <h3 class="name">${esc(it.name)}</h3>
               <div class="tagrow">
+                ${it.cat === "kits" ? `<span class="tag kit">10 VIAL KIT</span>` : ""}
                 <span class="tag red">${esc(getCatLabel(it.cat))}</span>
+                .tag.kit{
+                  background: linear-gradient(90deg, #3bb273, #1e6fa8);
+                  border: none;
+                  color: #fff;
+                
+                  font-weight:900;
+                  letter-spacing:.05em;
+                
+                  box-shadow:
+                    0 0 10px rgba(59,178,115,.6),
+                    0 0 20px rgba(30,111,168,.5);
+                }
                 <span class="tag mono">${esc(it.id.toUpperCase())}</span>
               </div>
             </div>
