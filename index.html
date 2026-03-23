@@ -1337,22 +1337,23 @@
             </div>
             <div class="price">${range}<small>${it.variants.length>1 ? "range" : ""}</small></div>
           </div>
-
+        
           <div class="mid">
             <div style="color:var(--muted); font-weight:850; font-size:12px; letter-spacing:.12em; text-transform:uppercase;">
               ${esc(CAT_DESC[it.cat] || "Catalog item")}
             </div>
             <div class="strengths">
-              ${it.variants.map((v,i)=> `<button class="strength" data-idx="${i}" title="Select ${esc(v.strength)}">${esc(v.strength)}</button>`).join("")}
+              ${it.variants.map((v,i)=> `<button class="strength" data-idx="${i}">${esc(v.strength)}</button>`).join("")}
             </div>
           </div>
-
+        
           <div class="footer">
             <div class="mini">Tap <span class="kbd">View</span> for details</div>
             <div style="display:flex; gap:10px; flex-wrap:wrap">
               <button class="btn" data-view="1">👁 View</button>
             </div>
           </div>
+        `;
 
         it._active = 0;
         card.querySelectorAll(".strength").forEach(btn => {
@@ -1369,7 +1370,6 @@
         if(first){ first.dataset.active = "true"; }
 
         card.querySelector('[data-view]').onclick = ()=> openDetail(it, it.variants[it._active || 0]);
-        card.querySelector('[data-add]').onclick = ()=> {toast("Use checkout button");};
 
         card.addEventListener("mousemove", (e)=>{
           if(window.matchMedia("(hover:hover) and (pointer:fine)").matches){
