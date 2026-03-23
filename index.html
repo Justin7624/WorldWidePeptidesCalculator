@@ -1197,7 +1197,12 @@
       if(sort === "priceAsc") a.sort((x,y)=> itemMinPrice(x) - itemMinPrice(y));
       if(sort === "priceDesc") a.sort((x,y)=> itemMaxPrice(y) - itemMaxPrice(x));
       if(sort === "featured"){
-        const rank = { healing:1, energy:2, gh:3, cognitive:4, aesthetic:5, fatloss:6, detox:7, tabs:8, supplies:9, kits:10, oil:11 };
+        const rank = {
+          kits:1,
+          oral:2,
+          oil:3,
+          supplies:4
+        };
         a.sort((x,y)=> (rank[x.cat]||99) - (rank[y.cat]||99));
       }
       return a;
@@ -1225,7 +1230,6 @@
     function syncUI(){
       document.querySelectorAll(".chip[data-key]").forEach(el=>{ el.dataset.active = String(el.dataset.key === state.cat); });
       document.getElementById("sortSel").value = state.sort;
-      const t = document.getElementById("toggleSections");
     }
 
     function scrollToCat(catKey){
@@ -1513,10 +1517,6 @@ document.getElementById("dNote").innerHTML = `
 
     document.getElementById("search").addEventListener("input", (e)=>{ state.q = e.target.value; render(); });
     document.getElementById("sortSel").addEventListener("change", (e)=>{ state.sort = e.target.value; render(); });
-    document.getElementById("toggleSections").addEventListener("click", ()=>{
-      state.sectionView = !state.sectionView;
-      syncUI(); render(true);
-    });
 
     function init(){ buildChips(); syncUI(); render(); }
     init();
